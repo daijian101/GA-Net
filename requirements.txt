@@ -1,0 +1,6 @@
+jbag >= 4.1.4
+cavass >= 1.2.0
+medpy
+tensorboardX
+tqdm
+monai
