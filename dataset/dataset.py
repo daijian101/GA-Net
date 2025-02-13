@@ -35,9 +35,9 @@ class ImageDataset(Dataset):
         image_obj = read_json(os.path.join(self.raw_data_dir, json_file + self.postfix))
         image = image_obj['data']
         data = {'data': image}
-        subject = image_obj['subject'] if 'subject' in image_obj else None
+        subject = image_obj['study'] if 'study' in image_obj else None
         if subject is not None:
-            data['subject'] = subject
+            data['study'] = subject
 
         if self.label_dir_dict:
             for label, label_dir in self.label_dir_dict.items():
@@ -83,29 +83,29 @@ class BalancedForegroundRegionDataset(Dataset):
         self.foreground_sample_probability = foreground_sample_probability
 
     def __getitem__(self, index):
-        subject = self.data_indices[index]
+        study = self.data_indices[index]
 
         sample_fg = np.random.random_sample() <= self.foreground_sample_probability
 
         if sample_fg:
-            foreground_slice_range = self.image_properties[subject]['foreground_slice_range']
+            foreground_slice_range = self.image_properties[study]['foreground_slice_range']
             slice_idx = np.random.randint(low=foreground_slice_range[0],
                                           high=foreground_slice_range[1] + 1)
         else:
             slice_idx = np.random.randint(low=0,
-                                          high=self.image_properties[subject]['num_slices'])
+                                          high=self.image_properties[study]['num_slices'])
 
-        slice_image_file = os.path.join(self.raw_data_dir, f'{subject}_{slice_idx:0>3d}.json')
+        slice_image_file = os.path.join(self.raw_data_dir, f'{study}_{slice_idx:0>3d}.json')
         image_obj = read_json(slice_image_file)
         image = image_obj['data']
         data = {'data': image}
-        subject = image_obj['study'] if 'study' in image_obj else None
-        if subject is not None:
-            data['study'] = subject
+        study = image_obj['study'] if 'study' in image_obj else None
+        if study is not None:
+            data['study'] = study
 
         if self.label_dict:
             for label, label_dir in self.label_dict.items():
-                label_file = os.path.join(label_dir, f'{subject}_{slice_idx:0>3d}.json')
+                label_file = os.path.join(label_dir, f'{study}_{slice_idx:0>3d}.json')
                 label_obj = read_json(label_file)
                 label_data = label_obj['data']
                 data[label] = label_data

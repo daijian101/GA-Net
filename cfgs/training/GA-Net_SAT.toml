@@ -1,5 +1,7 @@
 train = true
 test = false
+save_test_segmentation_map = true
+
 
 user_path = '/data1/dj'
 data_path = '${user_path}/data/bca'
@@ -24,7 +26,8 @@ val_interval = 10
 
 checkpoint_saved_interval = 10
 
-snapshot = '${user_path}/running/bca_${tissue_label}_GA-Net'
+snapshot = '${user_path}/running/bca_${tissue_label}_GA-Net_test'
+checkpoint = '/data1/dj/running/bca_SAT_GA-Net/checkpoint/checkpoint_60.pth'
 
 # Accelerator
 [cudnn]
@@ -93,23 +96,24 @@ dataset_property_file = '${data_path}/dataset/${tissue_label}_dataset_properties
 
 # for training
 [dataset.slice_sample_dir]
-slice_path = '${data_path}/json/slices'
-image = '${slice_path}/images'
-SAT = '${slice_path}/SAT'
-SR = '${slice_path}/SR'
-VAT = '${slice_path}/VAT'
-IAM = '${slice_path}/IAM'
-SMT = '${slice_path}/SMT'
-SMR = '${slice_path}/SMR'
-Sk = '${slice_path}/Sk'
-Dphm = '${slice_path}/Dphm'
+slice_dir = '${data_path}/json/slices'
+image = '${slice_dir}/images'
+SAT = '${slice_dir}/SAT'
+SR = '${slice_dir}/SR'
+VAT = '${slice_dir}/VAT'
+IAM = '${slice_dir}/IAM'
+SMT = '${slice_dir}/SMT'
+SMR = '${slice_dir}/SMR'
+Sk = '${slice_dir}/Sk'
+Dphm = '${slice_dir}/Dphm'
 
 # for validation
 [dataset.volume_sample_dir]
-volume_path = '${data_path}/json/volume'
-image = '${volume_path}/images'
-SAT = '${volume_path}/SAT'
-VAT = '${volume_path}/VAT'
-SMT = '${volume_path}/SMT'
-Sk = '${volume_path}/Sk'
-Dphm = '${volume_path}/Dphm'
+volume_dir = '${data_path}/json/volume'
+im0_dir = '${data_path}/cavass_data/images'
+image = '${volume_dir}/images'
+SAT = '${volume_dir}/SAT'
+VAT = '${volume_dir}/VAT'
+SMT = '${volume_dir}/SMT'
+Sk = '${volume_dir}/Sk'
+Dphm = '${volume_dir}/Dphm'
