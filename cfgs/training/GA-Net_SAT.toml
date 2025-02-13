@@ -14,8 +14,6 @@ tissue_label = 'SAT'
 region_label = 'SR'
 
 start_unbalance_loss_epoch = 100
-tissue_loss_ratio = 0.6
-region_loss_ratio = 0.4
 
 lr = 1e-2
 epochs = 1000
